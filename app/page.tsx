@@ -3,10 +3,16 @@
 import { useState } from "react";
 import { ArrowDown, ArrowRight, ArrowUpRight, Menu, ShoppingBag, X } from "lucide-react";
 
-const products = [
+const bestSellers = [
   { id: 1, name: "The Everyday Shirt", category: "ESSENTIALS / UNISEX", price: "KSh 4,800", tag: "BESTSELLER", image: "photo-1598033129183-c4f50c736f10", tone: "stone" },
-  { id: 2, name: "Sunday Knit", category: "KNITWEAR / UNISEX", price: "KSh 6,200", tag: "NEW ARRIVAL", image: "photo-1618354691373-d851c5c3a990", tone: "olive" },
-  { id: 3, name: "Market Tote", category: "OBJECTS / ACCESSORIES", price: "KSh 2,400", tag: "", image: "photo-1544816155-12df9643f363", tone: "clay" },
+  { id: 2, name: "Sunday Knit", category: "KNITWEAR / UNISEX", price: "KSh 6,200", tag: "BESTSELLER", image: "photo-1618354691373-d851c5c3a990", tone: "olive" },
+  { id: 3, name: "Market Tote", category: "OBJECTS / ACCESSORIES", price: "KSh 2,400", tag: "BESTSELLER", image: "photo-1544816155-12df9643f363", tone: "clay" },
+];
+
+const movingProducts = [
+  { id: 4, name: "The Weekend Edit", category: "READY TO WEAR / WOMENS", price: "KSh 5,600", tag: "IN THE ROTATION", image: "photo-1515886657613-9f3515b0c78f", tone: "stone" },
+  { id: 5, name: "Everyday Layers", category: "ESSENTIALS / UNISEX", price: "KSh 3,900", tag: "JUST IN", image: "photo-1521572163474-6864f9cf17ab", tone: "olive" },
+  { id: 6, name: "The Sunday Carryall", category: "OBJECTS / ACCESSORIES", price: "KSh 3,200", tag: "HOUSE FAVOURITE", image: "photo-1483985988355-763728e1935b", tone: "clay" },
 ];
 
 const imageUrl = (id: string, width = 1000) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
@@ -76,16 +82,30 @@ export default function Home() {
           <div><p className="eyebrow">01 / THE ROTATION</p><h2>GOOD THINGS.<br /><span>ON REPEAT.</span></h2></div>
           <a className="text-link" href="#newsletter">EXPLORE THE COLLECTION <ArrowUpRight size={16} /></a>
         </div>
+        <div className="bestseller-heading"><span>THE HOUSE PICKS</span><span>01 — 03 / BESTSELLERS</span></div>
         <div className="product-grid">
-          {products.map((product, index) => <article className={`product-card product-${index + 1}`} key={product.id}>
+          {bestSellers.map((product, index) => <article className={`product-card product-${index + 1}`} key={product.id}>
             <div className={`product-image ${product.tone}`}>
               <img src={imageUrl(product.image, 1000)} alt={product.name} />
-              {product.tag && <span className="product-tag">{product.tag}</span>}
+              <span className="product-tag">BESTSELLER</span>
               <button className="quick-add" onClick={() => addToBag(product.name)}>ADD TO BAG <span>+</span></button>
               <span className="product-number">0{index + 1}</span>
             </div>
             <div className="product-meta"><div><h3>{product.name}</h3><p>{product.category}</p></div><span className="price">{product.price}</span></div>
           </article>)}
+        </div>
+        <div className="belt-heading"><span>MORE FROM THE HOUSE</span><span>THE ROTATION NEVER STOPS ↗</span></div>
+        <div className="product-belt" aria-label="More Soko House products">
+          <div className="product-belt-track">
+            {[...movingProducts, ...movingProducts].map((product, index) => <article className="belt-card" key={`${product.id}-${index}`}>
+              <div className="belt-image">
+                <img src={imageUrl(product.image, 900)} alt={product.name} loading="lazy" />
+                <span className="product-tag">{product.tag}</span>
+                <button className="quick-add" onClick={() => addToBag(product.name)}>ADD TO BAG <span>+</span></button>
+              </div>
+              <div className="product-meta"><div><h3>{product.name}</h3><p>{product.category}</p></div><span className="price">{product.price}</span></div>
+            </article>)}
+          </div>
         </div>
       </section>
 
