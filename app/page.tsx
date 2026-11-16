@@ -114,7 +114,7 @@ export default function Home() {
               <div className="belt-image">
                 <img src={imageUrl(product.image, 900)} alt={product.name} loading="lazy" />
                 <span className="product-tag">{product.tag}</span>
-                <button className="quick-add" onClick={() => addToBag(product.name)}>ADD TO BAG <span>+</span></button>
+                <button className="quick-add" onClick={() => addToBag(product.name, Number(product.price.replace(/[^0-9]/g, "")))}>ADD TO BAG <span>+</span></button>
               </div>
               <div className="product-meta"><div><h3>{product.name}</h3><p>{product.category}</p></div><span className="price">{product.price}</span></div>
             </article>)}
