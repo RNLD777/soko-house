@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowRight, ArrowUpRight, Menu, ShoppingBag, X } from "lucide-react";
 
 const bestSellers = [
@@ -26,11 +26,28 @@ const imageUrl = (id: string, width = 1000) => `https://images.unsplash.com/${id
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const beltRef = useRef<HTMLDivElement>(null);
+  const [carouselPaused, setCarouselPaused] = useState(false);
   const [cartItems, setCartItems] = useState<{ name: string; price: number; quantity: number }[]>([]);
   const [bagOpen, setBagOpen] = useState(false);
   const [notice, setNotice] = useState("");
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  useEffect(() => {
+    if (carouselPaused) return;
+    const belt = beltRef.current;
+    if (!belt) return;
+    const timer = window.setInterval(() => {
+      const maxScroll = belt.scrollWidth - belt.clientWidth;
+      if (maxScroll <= 0) return;
+      if (belt.scrollLeft >= maxScroll - 24) {
+        belt.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        belt.scrollBy({ left: 320, behavior: "smooth" });
+      }
+    }, 3500);
+    return () => window.clearInterval(timer);
+  }, [carouselPaused]);
 
   const addToBag = (name: string, price: number) => {
     setCartItems((items) => {
@@ -117,7 +134,7 @@ export default function Home() {
         <div className="belt-heading"><span>MORE FROM THE HOUSE</span><span>THE ROTATION NEVER STOPS ↗</span></div>
         <div className="product-carousel-wrap">
           <div className="product-carousel-controls"><span>SCROLL TO EXPLORE</span><div><button type="button" aria-label="Previous products" onClick={() => beltRef.current?.scrollBy({ left: -360, behavior: "smooth" })}>←</button><button type="button" aria-label="Next products" onClick={() => beltRef.current?.scrollBy({ left: 360, behavior: "smooth" })}>→</button></div></div>
-        <div className="product-belt" aria-label="More Soko House products" ref={beltRef} tabIndex={0}>
+        <div className="product-belt" aria-label="More Soko House products" ref={beltRef} tabIndex={0} onMouseEnter={() => setCarouselPaused(true)} onMouseLeave={() => setCarouselPaused(false)} onFocus={() => setCarouselPaused(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setCarouselPaused(false); }}>
           <div className="product-belt-track">
             {movingProducts.map((product, index) => <article className="belt-card" key={product.id}>
               <div className="belt-image">
