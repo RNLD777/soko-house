@@ -1,0 +1,11 @@
+import Link from "next/link";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
+export default function StoryPage(){return <main className="inner-page">
+  <div className="inner-top"><Link href="/" className="wordmark">SOKO<span>®</span></Link><nav><Link href="/shop">SHOP ALL</Link><Link href="/collections">COLLECTIONS</Link><Link href="/story">OUR STORY</Link></nav><Link href="/" className="back-link"><ArrowLeft size={14}/> HOME</Link></div>
+  <header className="inner-hero story-hero"><p className="eyebrow">A NOTE ON WHO WE ARE / 003</p><h1>MADE OF<br/><em>HERE.</em></h1><p>Rooted in where we're from. Made for wherever we're going.</p></header>
+  <section className="story-feature"><img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1800&q=85" alt="Contemporary fashion editorial"/><span>FIELD NOTES / NAIROBI, 001</span></section>
+  <section className="story-manifesto"><p className="eyebrow">OUR POINT OF VIEW</p><h2>THE WORLD IS OURS TO <em>REIMAGINE.</em></h2><div><p>Soko House is a fictional contemporary fashion and lifestyle concept shaped by an African point of view. It brings together considered design, everyday utility and pieces made to move with you.</p><p>We believe the everyday deserves more thought. Not more noise. Not more things for the sake of things. Just useful, expressive pieces with a sense of place and purpose.</p></div></section>
+  <section className="story-values"><article><span>01</span><h3>ROOTED IN PLACE</h3><p>Our perspective starts here, with the textures, energy and creativity around us.</p></article><article><span>02</span><h3>MADE FOR LIVING</h3><p>Good design should work in real life, not just look good in a photograph.</p></article><article><span>03</span><h3>ALWAYS IN MOTION</h3><p>Culture moves. Personal style moves with it. We leave room for both.</p></article></section>
+  <div className="story-end"><p className="eyebrow">THE HOUSE IS OPEN</p><h2>FIND YOUR<br/><em>EVERYDAY.</em></h2><Link href="/shop">EXPLORE THE SHOP <ArrowUpRight size={17}/></Link></div>
+  <footer className="inner-footer"><Link href="/">SOKO®</Link><span>AN INDEPENDENT CONCEPT / NAIROBI, KE</span><Link href="/">BACK HOME ↑</Link></footer>
+</main>}
