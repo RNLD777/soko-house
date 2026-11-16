@@ -42,7 +42,7 @@ export default function Home() {
   };
 
   return (
-    <main>
+    <main id="top">
       <div className="announcement">
         <span>INDEPENDENT BY NATURE. AFRICAN BY DESIGN.</span>
         <span className="announcement-right">COMPLIMENTARY DELIVERY ON ORDERS OVER KSh 10,000 ↗</span>
@@ -147,7 +147,7 @@ export default function Home() {
       </section>
 
       <footer className="footer">
-        <div className="footer-top"><a className="footer-logo" href="/">SOKO<span>®</span></a><p>MADE OF HERE.<br />WORN EVERYWHERE.</p><a className="back-top" href="#">BACK TO TOP ↑</a></div>
+        <div className="footer-top"><a className="footer-logo" href="/">SOKO<span>®</span></a><p>MADE OF HERE.<br />WORN EVERYWHERE.</p><a className="back-top" href="#top">BACK TO TOP ↑</a></div>
         <div className="footer-bottom"><span>© SOKO HOUSE 2026</span><span>AN INDEPENDENT CONCEPT / NAIROBI, KE</span><div><a href="#shop">SHOP</a><a href="#story">ABOUT</a><a href="#story">OUR STORY ↗</a></div></div>
       </footer>
       {bagOpen && <div className="bag-backdrop" onClick={() => setBagOpen(false)}>
