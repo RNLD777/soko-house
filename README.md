@@ -20,7 +20,7 @@ npm run dev
 ```
 
 ## Project status
-Portfolio demo — responsive editorial storefront with working in-page navigation, mobile menu, interactive shopping bag (add, quantity adjustment, remove, subtotal) and clear demo-only checkout messaging. No real inventory, payment processing, order storage or newsletter service is connected.
+Portfolio demo — responsive editorial storefront with dedicated Shop All, Collections and Our Story pages, responsive interactive product carousel, working navigation and mobile menu, interactive shopping bag (add, quantity adjustment, remove, subtotal) and clear demo-only checkout messaging. No real inventory, payment processing, order storage or newsletter service is connected.
 
 ## Brand
 Soko House is a fictional concept brand. Product names, prices and brand copy are for demonstration only.
