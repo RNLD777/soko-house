@@ -57,11 +57,12 @@
 .product-carousel-controls>div{display:flex;gap:8px}
 .product-carousel-controls button{width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:transparent;font-size:19px;cursor:pointer;transition:background .2s,color .2s}
 .product-carousel-controls button:hover{background:var(--ink);color:var(--bone)}
-.product-belt{overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--sand) transparent;padding-bottom:14px}
-.product-belt-track{animation:none;width:max-content;display:flex;gap:18px}
-.belt-card{scroll-snap-align:start}
+.product-belt{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scroll-snap-type:none;scrollbar-width:none;padding-bottom:14px}
+.product-belt::-webkit-scrollbar{display:none}
+.product-belt-track{animation:none;width:max-content;display:flex;gap:0}
+.belt-card{margin-right:18px;scroll-snap-align:none}
 .product-belt:focus-visible{outline:2px solid var(--clay);outline-offset:4px}
-@media(max-width:760px){.product-carousel-controls button{width:38px;height:38px}.product-belt-track{gap:12px}.belt-card{width:78vw}}
+@media(max-width:760px){.product-carousel-controls button{width:38px;height:38px}.belt-card{width:78vw;margin-right:12px}}
 
 
 /* Dedicated Soko House destination pages */
