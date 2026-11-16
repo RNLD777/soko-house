@@ -50,3 +50,15 @@
 .checkout-demo{width:100%;border:0;padding:17px;background:#c9c4b9;color:#777;font:10px var(--mono);letter-spacing:.06em;cursor:not-allowed}
 .clear-bag{display:block;margin:16px auto 0;border:0;background:none;text-decoration:underline;font:9px var(--mono);cursor:pointer;color:var(--ink)}
 @media(max-width:760px){.bag-drawer{padding:25px 6%}.bag-drawer-head h2{font-size:36px}}
+
+
+/* Interactive product carousel */
+.product-carousel-controls{display:flex;justify-content:space-between;align-items:center;margin:0 0 16px;font:9px var(--mono);letter-spacing:.08em}
+.product-carousel-controls>div{display:flex;gap:8px}
+.product-carousel-controls button{width:42px;height:42px;border:1px solid var(--line);border-radius:50%;background:transparent;font-size:19px;cursor:pointer;transition:background .2s,color .2s}
+.product-carousel-controls button:hover{background:var(--ink);color:var(--bone)}
+.product-belt{overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--sand) transparent;padding-bottom:14px}
+.product-belt-track{animation:none;width:max-content;display:flex;gap:18px}
+.belt-card{scroll-snap-align:start}
+.product-belt:focus-visible{outline:2px solid var(--clay);outline-offset:4px}
+@media(max-width:760px){.product-carousel-controls button{width:38px;height:38px}.product-belt-track{gap:12px}.belt-card{width:78vw}}
