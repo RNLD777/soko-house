@@ -24,7 +24,8 @@ const movingProducts = [
 const imageUrl = (id: string, width = 1000) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);\n  const beltRef = useRef<HTMLDivElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const beltRef = useRef<HTMLDivElement>(null);
   const [cartItems, setCartItems] = useState<{ name: string; price: number; quantity: number }[]>([]);
   const [bagOpen, setBagOpen] = useState(false);
   const [notice, setNotice] = useState("");
