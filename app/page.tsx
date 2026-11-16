@@ -34,19 +34,22 @@ export default function Home() {
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
   useEffect(() => {
-    if (carouselPaused) return;
     const belt = beltRef.current;
-    if (!belt) return;
-    const timer = window.setInterval(() => {
-      const maxScroll = belt.scrollWidth - belt.clientWidth;
-      if (maxScroll <= 0) return;
-      if (belt.scrollLeft >= maxScroll - 24) {
-        belt.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        belt.scrollBy({ left: 320, behavior: "smooth" });
+    if (!belt || carouselPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let frame = 0;
+    let previousTime = 0;
+    const speed = 28;
+    const tick = (time: number) => {
+      if (previousTime) {
+        const halfWidth = belt.scrollWidth / 2;
+        belt.scrollLeft += (time - previousTime) / 1000 * speed;
+        if (halfWidth > 0 && belt.scrollLeft >= halfWidth) belt.scrollLeft -= halfWidth;
       }
-    }, 3500);
-    return () => window.clearInterval(timer);
+      previousTime = time;
+      frame = window.requestAnimationFrame(tick);
+    };
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
   }, [carouselPaused]);
 
   const addToBag = (name: string, price: number) => {
@@ -136,7 +139,7 @@ export default function Home() {
           <div className="product-carousel-controls"><span>SCROLL TO EXPLORE</span><div><button type="button" aria-label="Previous products" onClick={() => beltRef.current?.scrollBy({ left: -360, behavior: "smooth" })}>←</button><button type="button" aria-label="Next products" onClick={() => beltRef.current?.scrollBy({ left: 360, behavior: "smooth" })}>→</button></div></div>
         <div className="product-belt" aria-label="More Soko House products" ref={beltRef} tabIndex={0} onMouseEnter={() => setCarouselPaused(true)} onMouseLeave={() => setCarouselPaused(false)} onFocus={() => setCarouselPaused(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setCarouselPaused(false); }}>
           <div className="product-belt-track">
-            {movingProducts.map((product, index) => <article className="belt-card" key={product.id}>
+            {[...movingProducts, ...movingProducts].map((product, index) => <article className="belt-card" key={index} aria-hidden={index >= movingProducts.length ? true : undefined}>
               <div className="belt-image">
                 <img src={imageUrl(product.image, 900)} alt={product.name} loading="lazy" />
                 <span className="product-tag">{product.tag}</span>
