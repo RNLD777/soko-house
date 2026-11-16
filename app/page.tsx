@@ -114,7 +114,9 @@ export default function Home() {
           </article>)}
         </div>
         <div className="belt-heading"><span>MORE FROM THE HOUSE</span><span>THE ROTATION NEVER STOPS ↗</span></div>
-        <div className="product-belt" aria-label="More Soko House products">
+        <div className="product-carousel-wrap">
+          <div className="product-carousel-controls"><span>SCROLL TO EXPLORE</span><div><button type="button" aria-label="Previous products" onClick={() => beltRef.current?.scrollBy({ left: -360, behavior: "smooth" })}>←</button><button type="button" aria-label="Next products" onClick={() => beltRef.current?.scrollBy({ left: 360, behavior: "smooth" })}>→</button></div></div>
+        <div className="product-belt" aria-label="More Soko House products" ref={beltRef} tabIndex={0}>
           <div className="product-belt-track">
             {movingProducts.map((product, index) => <article className="belt-card" key={product.id}>
               <div className="belt-image">
@@ -125,6 +127,7 @@ export default function Home() {
               <div className="product-meta"><div><h3>{product.name}</h3><p>{product.category}</p></div><span className="price">{product.price}</span></div>
             </article>)}
           </div>
+        </div>
         </div>
       </section>
 
