@@ -26,3 +26,27 @@
 @media(prefers-reduced-motion:reduce){
   .product-belt-track{animation:none}
 }
+
+
+/* Functional demo shopping bag */
+.bag-backdrop{position:fixed;inset:0;z-index:60;background:rgba(15,15,13,.58);display:flex;justify-content:flex-end}
+.bag-drawer{width:min(520px,100%);height:100%;overflow-y:auto;background:var(--bone);color:var(--ink);padding:clamp(24px,4vw,48px);display:flex;flex-direction:column}
+.bag-drawer-head{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:25px}
+.bag-drawer-head .eyebrow{margin:0 0 12px}
+.bag-drawer-head h2{font:500 clamp(32px,5vw,52px) var(--display);letter-spacing:-.06em;margin:0}
+.bag-drawer .icon-button{border:0;background:transparent;color:var(--ink);cursor:pointer;padding:6px}
+.bag-empty{margin:auto 0;display:grid;gap:18px;justify-items:start}
+.bag-empty p{font:clamp(20px,3vw,28px) var(--display)}
+.bag-items{padding:10px 0}
+.bag-item{display:flex;justify-content:space-between;gap:20px;padding:24px 0;border-bottom:1px solid var(--line)}
+.bag-item h3{font:500 19px var(--display);margin:0 0 6px}
+.bag-item p{font:10px var(--mono);margin:0 0 14px}
+.bag-item strong{font:11px var(--mono);white-space:nowrap}
+.quantity-control{display:inline-flex;align-items:center;border:1px solid var(--line);gap:14px;padding:5px 8px;font:11px var(--mono)}
+.quantity-control button{border:0;background:none;color:var(--ink);font-size:17px;cursor:pointer;padding:0 4px}
+.bag-summary{margin-top:auto;border-top:1px solid var(--line);padding-top:22px}
+.bag-summary>div{display:flex;justify-content:space-between;font:11px var(--mono)}
+.bag-summary p{font:10px/1.6 var(--mono);color:#777;margin:15px 0}
+.checkout-demo{width:100%;border:0;padding:17px;background:#c9c4b9;color:#777;font:10px var(--mono);letter-spacing:.06em;cursor:not-allowed}
+.clear-bag{display:block;margin:16px auto 0;border:0;background:none;text-decoration:underline;font:9px var(--mono);cursor:pointer;color:var(--ink)}
+@media(max-width:760px){.bag-drawer{padding:25px 6%}.bag-drawer-head h2{font-size:36px}}
