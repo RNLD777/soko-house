@@ -116,7 +116,7 @@ export default function Home() {
         <div className="belt-heading"><span>MORE FROM THE HOUSE</span><span>THE ROTATION NEVER STOPS ↗</span></div>
         <div className="product-belt" aria-label="More Soko House products">
           <div className="product-belt-track">
-            {[...movingProducts, ...movingProducts].map((product, index) => <article className="belt-card" key={`${product.id}-${index}`}>
+            {movingProducts.map((product, index) => <article className="belt-card" key={product.id}>
               <div className="belt-image">
                 <img src={imageUrl(product.image, 900)} alt={product.name} loading="lazy" />
                 <span className="product-tag">{product.tag}</span>
