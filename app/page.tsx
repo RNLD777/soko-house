@@ -19,13 +19,26 @@ const imageUrl = (id: string, width = 1000) => `https://images.unsplash.com/${id
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+  const [cartItems, setCartItems] = useState<{ name: string; price: number; quantity: number }[]>([]);
+  const [bagOpen, setBagOpen] = useState(false);
   const [notice, setNotice] = useState("");
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
-  const addToBag = (name: string) => {
-    setCartCount((count) => count + 1);
+  const addToBag = (name: string, price: number) => {
+    setCartItems((items) => {
+      const existing = items.find((item) => item.name === name);
+      return existing
+        ? items.map((item) => item.name === name ? { ...item, quantity: item.quantity + 1 } : item)
+        : [...items, { name, price, quantity: 1 }];
+    });
     setNotice(name + " added to your bag");
-    window.setTimeout(() => setNotice(""), 2600);
+  };
+
+  const changeQuantity = (name: string, amount: number) => {
+    setCartItems((items) => items
+      .map((item) => item.name === name ? { ...item, quantity: item.quantity + amount } : item)
+      .filter((item) => item.quantity > 0));
   };
 
   return (
@@ -37,20 +50,20 @@ export default function Home() {
 
       <header className="header">
         <button className="icon-button mobile-menu" aria-label="Open menu" onClick={() => setMenuOpen(true)}><Menu size={21} /></button>
-        <a className="wordmark" href="#" aria-label="Soko House home">SOKO<span>®</span></a>
+        <a className="wordmark" href="/" aria-label="Soko House home">SOKO<span>®</span></a>
         <nav className="desktop-nav" aria-label="Main navigation">
           <a href="#shop">SHOP ALL</a><a href="#collections">COLLECTIONS</a><a href="#story">OUR STORY</a>
         </nav>
         <div className="header-actions">
           <a className="account-link" href="#newsletter">JOIN THE HOUSE</a>
-          <button className="bag-button" aria-label={`Shopping bag, ${cartCount} items`} onClick={() => setNotice(cartCount ? `Your bag has ${cartCount} item(s). Checkout coming soon.` : "Your bag is currently empty.")}>
+          <button className="bag-button" aria-label={`Shopping bag, ${cartCount} items`} onClick={() => setBagOpen(true)}>
             BAG <span className="bag-count">{cartCount}</span>
           </button>
         </div>
       </header>
 
       {menuOpen && <div className="mobile-overlay">
-        <div className="mobile-overlay-top"><a className="wordmark" href="#">SOKO<span>®</span></a><button className="icon-button" onClick={() => setMenuOpen(false)} aria-label="Close menu"><X /></button></div>
+        <div className="mobile-overlay-top"><a className="wordmark" href="/">SOKO<span>®</span></a><button className="icon-button" onClick={() => setMenuOpen(false)} aria-label="Close menu"><X /></button></div>
         <nav><a onClick={() => setMenuOpen(false)} href="#shop">SHOP ALL <ArrowUpRight /></a><a onClick={() => setMenuOpen(false)} href="#collections">COLLECTIONS <ArrowUpRight /></a><a onClick={() => setMenuOpen(false)} href="#story">OUR STORY <ArrowUpRight /></a></nav>
         <p>MADE OF HERE. WORN EVERYWHERE.</p>
       </div>}
@@ -80,7 +93,7 @@ export default function Home() {
       <section className="shop-section" id="shop">
         <div className="section-heading">
           <div><p className="eyebrow">01 / THE ROTATION</p><h2>GOOD THINGS.<br /><span>ON REPEAT.</span></h2></div>
-          <a className="text-link" href="#newsletter">EXPLORE THE COLLECTION <ArrowUpRight size={16} /></a>
+          <a className="text-link" href="#shop">EXPLORE THE COLLECTION <ArrowUpRight size={16} /></a>
         </div>
         <div className="bestseller-heading"><span>THE HOUSE PICKS</span><span>01 — 03 / BESTSELLERS</span></div>
         <div className="product-grid">
@@ -88,7 +101,7 @@ export default function Home() {
             <div className={`product-image ${product.tone}`}>
               <img src={imageUrl(product.image, 1000)} alt={product.name} />
               <span className="product-tag">BESTSELLER</span>
-              <button className="quick-add" onClick={() => addToBag(product.name)}>ADD TO BAG <span>+</span></button>
+              <button className="quick-add" onClick={() => addToBag(product.name, Number(product.price.replace(/[^0-9]/g, "")))}>ADD TO BAG <span>+</span></button>
               <span className="product-number">0{index + 1}</span>
             </div>
             <div className="product-meta"><div><h3>{product.name}</h3><p>{product.category}</p></div><span className="price">{product.price}</span></div>
@@ -117,7 +130,7 @@ export default function Home() {
           <p className="eyebrow">02 / WHERE WE STAND</p>
           <p className="manifesto-big">THE WORLD<br />IS OURS TO<br /><span>REIMAGINE.</span></p>
           <p className="manifesto-body">We believe the everyday deserves more thought. Soko House brings together considered design, contemporary African perspectives and pieces made to move with you.</p>
-          <a className="text-link" href="#newsletter">GET TO KNOW US <ArrowUpRight size={16} /></a>
+          <a className="text-link" href="#story">GET TO KNOW US <ArrowUpRight size={16} /></a>
           <span className="manifesto-mark">S/01</span>
         </div>
       </section>
@@ -130,15 +143,27 @@ export default function Home() {
 
       <section className="newsletter" id="newsletter">
         <div><p className="eyebrow light">03 / STAY IN THE LOOP</p><h2>GOOD THINGS<br />TRAVEL <span>FAST.</span></h2></div>
-        <div className="newsletter-right"><p>New drops, stories and things worth knowing.<br />Straight from the house.</p><form onSubmit={(e) => { e.preventDefault(); setNotice("Thanks for your interest. Newsletter signup will be connected soon."); }}><input type="email" required placeholder="YOUR EMAIL ADDRESS" aria-label="Your email address" /><button aria-label="Subscribe"><ArrowUpRight /></button></form><small>NO NOISE. JUST THE GOOD STUFF.</small></div>
+        <div className="newsletter-right"><p>New drops, stories and things worth knowing.<br />Straight from the house.</p><form onSubmit={(e) => { e.preventDefault(); setNotice("Newsletter signup is a demo only. No email has been sent or stored."); }}><input type="email" required placeholder="YOUR EMAIL ADDRESS" aria-label="Your email address" /><button aria-label="Subscribe"><ArrowUpRight /></button></form><small>NO NOISE. JUST THE GOOD STUFF.</small></div>
       </section>
 
       <footer className="footer">
-        <div className="footer-top"><a className="footer-logo" href="#">SOKO<span>®</span></a><p>MADE OF HERE.<br />WORN EVERYWHERE.</p><a className="back-top" href="#">BACK TO TOP ↑</a></div>
-        <div className="footer-bottom"><span>© SOKO HOUSE 2026</span><span>AN INDEPENDENT CONCEPT / NAIROBI, KE</span><div><a href="#shop">SHOP</a><a href="#story">ABOUT</a><a href="#newsletter">INSTAGRAM ↗</a></div></div>
+        <div className="footer-top"><a className="footer-logo" href="/">SOKO<span>®</span></a><p>MADE OF HERE.<br />WORN EVERYWHERE.</p><a className="back-top" href="#">BACK TO TOP ↑</a></div>
+        <div className="footer-bottom"><span>© SOKO HOUSE 2026</span><span>AN INDEPENDENT CONCEPT / NAIROBI, KE</span><div><a href="#shop">SHOP</a><a href="#story">ABOUT</a><a href="#story">OUR STORY ↗</a></div></div>
       </footer>
+      {bagOpen && <div className="bag-backdrop" onClick={() => setBagOpen(false)}>
+        <section className="bag-drawer" role="dialog" aria-modal="true" aria-labelledby="bag-title" onClick={(event) => event.stopPropagation()}>
+          <div className="bag-drawer-head"><div><p className="eyebrow">YOUR SELECTION</p><h2 id="bag-title">THE BAG ({cartCount})</h2></div><button className="icon-button" onClick={() => setBagOpen(false)} aria-label="Close shopping bag"><X /></button></div>
+          {cartItems.length === 0 ? <div className="bag-empty"><p>Your bag is waiting for something good.</p><button className="text-link" onClick={() => { setBagOpen(false); document.getElementById("shop")?.scrollIntoView({ behavior: "smooth" }); }}>EXPLORE THE HOUSE <ArrowUpRight size={16} /></button></div> : <>
+            <div className="bag-items">{cartItems.map((item) => <div className="bag-item" key={item.name}>
+              <div><h3>{item.name}</h3><p>KSh {item.price.toLocaleString("en-KE")}</p><div className="quantity-control"><button onClick={() => changeQuantity(item.name, -1)} aria-label={`Remove one ${item.name}`}>−</button><span>{item.quantity}</span><button onClick={() => changeQuantity(item.name, 1)} aria-label={`Add one ${item.name}`}>+</button></div></div>
+              <strong>KSh {(item.price * item.quantity).toLocaleString("en-KE")}</strong>
+            </div>)}</div>
+            <div className="bag-summary"><div><span>SUBTOTAL</span><strong>KSh {cartTotal.toLocaleString("en-KE")}</strong></div><p>Delivery and payment are not connected in this concept store.</p><button className="checkout-demo" disabled>CHECKOUT NOT AVAILABLE IN DEMO</button><button className="clear-bag" onClick={() => setCartItems([])}>CLEAR BAG</button></div>
+          </>}
+        </section>
+      </div>}
       {notice && <div className="toast" role="status">{notice}<button onClick={() => setNotice("")} aria-label="Dismiss notification"><X size={15} /></button></div>}
-      <button className="floating-bag" onClick={() => setNotice(cartCount ? `Your bag has ${cartCount} item(s). Checkout coming soon.` : "Your bag is currently empty.")}><ShoppingBag size={17} /> <span>{cartCount}</span></button>
+      <button className="floating-bag" onClick={() => setBagOpen(true)}><ShoppingBag size={17} /> <span>{cartCount}</span></button>
     </main>
   );
 }
